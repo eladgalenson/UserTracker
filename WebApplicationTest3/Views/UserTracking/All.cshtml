@@ -1,0 +1,70 @@
+﻿@model IEnumerable<FriendsTracker.Data.Entities.UserTracking>
+
+@{
+    ViewData["Title"] = "All";
+}
+
+@section Scripts
+    {
+    <script src="~/ClientApp/dist/runtime.js"></script>
+    <script src="~/ClientApp/dist/polyfills.js"></script>
+    <script src="~/ClientApp/dist/styles.js"></script>
+    <script src="~/ClientApp/dist/vendor.js"></script>
+    <script src="~/ClientApp/dist/main.js"></script>
+}
+
+<h2>All</h2>
+<p>@ViewData["data"]</p>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TrackerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.AvatarType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserOnlinePresence.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.ImageUrl)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tracker.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.AvatarType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserOnlinePresence.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.ImageUrl)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,5 @@
+{
+    "ConnectionStrings": {
+        "FriendsTrackerConnectionString": "server=ELAD-LAP;DataBase=FriendsTrackerDb;Integrated Security=true;MultipleActiveResultSets=true;"
+    }
+}
