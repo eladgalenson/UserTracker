@@ -57,7 +57,7 @@ namespace WebApplicationTest3.Controllers
         
         public async Task<IActionResult> AllTrackers()
         {
-
+            //simple comment
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
             var result = await _userManager.IsInRoleAsync(user, "Admin");
