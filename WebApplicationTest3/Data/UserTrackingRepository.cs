@@ -46,7 +46,7 @@ namespace WebApplicationTest3.Data
 
         private UserProfile GetUserProfile(string userName)
         {
-            return _dbContext.UserProfiles.Where(p => p.UserId == userName).FirstOrDefault();
+            return _dbContext.UserProfiles.Where(p => p.ApplicationUserName == userName).FirstOrDefault();
         }
 
       

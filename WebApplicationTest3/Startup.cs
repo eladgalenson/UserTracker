@@ -29,7 +29,7 @@ namespace WebApplicationTest3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<ApplicationUser, IdentityRole>(cfg => {
+            services.AddIdentity<ApplicationUser, ApplicationRole>(cfg => {
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = true;
                 cfg.Password.RequireUppercase = true;

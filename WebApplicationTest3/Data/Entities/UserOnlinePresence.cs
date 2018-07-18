@@ -8,9 +8,9 @@ namespace FriendsTracker.Data.Entities
     public class UserOnlinePresence
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public int ApplicationUserName { get; set; }
 
-        public UserProfile User { get; set; }
+        //public UserProfile User { get; set; }
 
         public bool IsActive { get; set; }
 

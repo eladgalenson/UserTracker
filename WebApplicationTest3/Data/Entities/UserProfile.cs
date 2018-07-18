@@ -9,7 +9,7 @@ namespace FriendsTracker.Data.Entities
     {
         public int Id { get; set; }
 
-        public string UserId { get; set; } // will be the user name from identity
+        public string ApplicationUserName { get; set; } // will be the user name from identity
 
         public bool Gender { get; set; }
 

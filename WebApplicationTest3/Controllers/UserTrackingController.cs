@@ -35,26 +35,39 @@ namespace WebApplicationTest3.Controllers
 
             {
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                var result = await _userManager.IsInRoleAsync(user, "Admin");
+                if (result)
+                {
+
+                    return RedirectToAction("AllTrackers");
+                }
+                
                 //get tracked users
                 var trackedUsers = _userTrackingRepository.GetUserTrackings(user.UserName);
+                if (trackedUsers != null && trackedUsers.Count() > 0)
+                {
+                    return View(trackedUsers);
+                }
 
-                return View(trackedUsers);
+                return View(new List<UserTracking>());
             }
         }
 
         
-        public IActionResult AllTrackers()
+        public async Task<IActionResult> AllTrackers()
         {
-            if (this.User.Identity.IsAuthenticated)
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var result = await _userManager.IsInRoleAsync(user, "Admin");
+            if (result)
             {
-                return RedirectToAction("All");
+                ViewData["access"] = "admin";
             }
-            else
-            {
-                var trackedUsers = _userTrackingRepository.GetTrackers();
-                return View(trackedUsers);
-            }
-                
+
+            var trackedUsers = _userTrackingRepository.GetTrackers();
+            return View(trackedUsers);
             
         }
 
@@ -65,6 +78,18 @@ namespace WebApplicationTest3.Controllers
         {
             var model = _userTrackingRepository.GetUserTrackings("96476fba-8626-4fc4-a33b-cf8210889855");
             return Ok(model);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(InvitationViewModel model)
+        {
+            //review
+            return RedirectToAction("AllTrackers");
         }
     }
 }

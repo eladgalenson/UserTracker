@@ -14,11 +14,14 @@ namespace FriendsTracker.Data
         private IHostingEnvironment _hosting { get; set; }
         private UserManager<ApplicationUser> _userManager { get; set; }
 
-        public SeedGenerator(UserTrackingContext context, IHostingEnvironment hosting, UserManager<ApplicationUser> userManager)
+        private RoleManager<ApplicationRole> _roleManager { get; set; }
+
+        public SeedGenerator(UserTrackingContext context, IHostingEnvironment hosting, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             this._context = context;
             this._hosting = hosting;
             this._userManager = userManager;
+            this._roleManager = roleManager;
         }
 
         public async Task Seed()
@@ -28,12 +31,14 @@ namespace FriendsTracker.Data
             var user = await this._userManager.FindByEmailAsync("firstuser@gmail.com");
             if (user == null)
             {
+               
+
                 user = new ApplicationUser()
                 {
                     FirstName = "first",
                     LastName = "user",
                     UserName = "firstuser",
-                    Email = "firstuser@gmail.com"
+                    Email = "firstuser@gmail.com",
                 };
 
                 var trackedUser = new ApplicationUser()
@@ -46,19 +51,53 @@ namespace FriendsTracker.Data
 
                 var result1 = await this._userManager.CreateAsync(user, "123456aB!");
                 var result2 = await this._userManager.CreateAsync(trackedUser, "123456aB!");
+                
                 if (result1 != IdentityResult.Success || result2 != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Failed to create default users");
                 }
+
+              
             }
 
-            if (!_context.UserTrackings.Any())
+            user = await this._userManager.FindByEmailAsync("adminuser@gmail.com");
+            if (user == null)
+            {
+                var adminUser = new ApplicationUser()
+                {
+                    FirstName = "admin",
+                    LastName = "user",
+                    UserName = "adminuser",
+                    Email = "adminuser@gmail.com",
+                };
+                var result3 = await this._userManager.CreateAsync(adminUser, "123456aB!");
+                if (result3 != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Failed to create default users");
+                }
+
+                var role = new ApplicationRole() { Name = "Admin", Description = "Administrator role" };
+                var result4 = await this._roleManager.CreateAsync(role);
+                if (result4 != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Failed to create admin roles");
+                }
+
+                var result5 = await this._userManager.AddToRoleAsync(adminUser, "Admin");
+                if (result5 != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Failed to create admin roles");
+                }
+            }
+
+
+                if (!_context.UserTrackings.Any())
             {
                 var firstUser = await this._userManager.FindByEmailAsync("firstuser@gmail.com");
 
                 var profileFirst = new UserProfile()
                 {
-                    UserId = firstUser.UserName,
+                    ApplicationUserName = firstUser.UserName,
                     AvatarType = "tough",
                     Created = DateTime.Now,
                     Gender = true,
@@ -71,7 +110,7 @@ namespace FriendsTracker.Data
 
                 var profileSecond = new UserProfile()
                 {
-                    UserId = secondtUser.UserName,
+                    ApplicationUserName = secondtUser.UserName,
                     AvatarType = "cute",
                     Created = DateTime.Now,
                     Gender = true,
@@ -86,8 +125,7 @@ namespace FriendsTracker.Data
                     {
                         IsActive = false,
                         Location = "somewhere in te mediratenean",
-                        UserId = profileSecond.Id,
-                        User = profileSecond
+                        ApplicationUserName = profileSecond.Id
                     },
                     User = profileSecond,
                     UserId = profileSecond.Id,

@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Tracker.UserId)
+                @Html.DisplayNameFor(model => model.Tracker.ApplicationUserName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Tracker.AvatarType)
@@ -33,7 +33,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Tracker.UserId)
+                    @Html.DisplayFor(modelItem => item.Tracker.ApplicationUserName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Tracker.AvatarType)
@@ -53,4 +53,12 @@
         }
     </tbody>
 </table>
+
+@if (@ViewData["access"]!= null)
+{
+    <div>
+        <a asp-controller="Profile" asp-action="Index">Add new Tracker</a>
+    </div>
+
+}
 

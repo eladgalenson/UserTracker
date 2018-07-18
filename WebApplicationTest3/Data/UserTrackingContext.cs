@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FriendsTracker.Data
 {
-    public class UserTrackingContext : IdentityDbContext<ApplicationUser>
+    public class UserTrackingContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public UserTrackingContext(DbContextOptions<UserTrackingContext> context) : base(context)
         {
@@ -17,12 +17,17 @@ namespace FriendsTracker.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<UserTracking>().Property(k => k.TrackerId).IsRequired();
-            builder.Entity<UserTracking>().Property(k => k.UserId).IsRequired();
+            //builder.Entity<UserTracking>().Property(k => k.TrackerId).IsRequired();
+            //builder.Entity<UserTracking>().Property(k => k.UserId).IsRequired();
             builder.Entity<UserTracking>().HasKey(k => new { k.UserId, k.TrackerId});
+            //builder.Entity<UserTracking>().HasMany(m=>m.User).WithRequired
+
             builder.Entity<TrackingInvitation>().HasKey(k => new { k.TrackerId, k.TrackeeId});
 
-
+            //foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            //{
+            //    relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            //}
 
             base.OnModelCreating(builder);
         }
