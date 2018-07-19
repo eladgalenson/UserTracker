@@ -20,6 +20,14 @@ namespace WebApplicationTest3
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(GetConfigurationSources)
+                .ConfigureLogging((hostingContext, logging) =>
+                             {
+                                 //logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                                 logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                                // logging.AddConsole();
+                    //logging.AddDebug();
+                    logging.SetMinimumLevel(LogLevel.Trace);
+                             })
                 .UseStartup<Startup>()
                 .Build();
 
@@ -29,7 +37,7 @@ namespace WebApplicationTest3
             builder.Sources.Clear();
 
             builder.AddJsonFile("config.json", false, true)
-                .AddEnvironmentVariables();
+                    .AddEnvironmentVariables();
 
         }
     }
