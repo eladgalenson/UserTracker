@@ -8,8 +8,11 @@ namespace FriendsTracker.Shared
 {
     public enum Avatar
     {
-        Cute,
-        Tough,
-        Mad
+        meh,
+        foo,
+        child,
+        female,
+        poo,
+        user_secret
     }
 }

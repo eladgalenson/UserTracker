@@ -8,12 +8,15 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+        @*<link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />*@
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        
     </environment>
 </head>
 <body>
@@ -24,18 +27,18 @@
                 <a class="navbar-brand" href="#">User Tracker</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a asp-controller="UserTracking" asp-action="AllTrackers">User Tracking</a></li>
+                <li class="active"><a asp-controller="UserTracking" asp-action="All">User Tracking</a></li>
                 <li><a asp-controller="Party" asp-action="Index">Parties</a></li>
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" asp-controller="Profile" asp-action="Index">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
                             Profile
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a asp-controller="Account" asp-action="Logout">Logout</a></li>
-                            <li><a href="#">View Profile</a></li>
+                            <li><a asp-controller="Profile" asp-action="Index">View Profile</a></li>
                         </ul>
                     </li>
                     @if (User.IsInRole("Admin"))
@@ -46,7 +49,7 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                @*<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>*@
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <li><a asp-controller="Account" asp-action="Login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
@@ -56,7 +59,8 @@
         </div>
     </nav>
 
-   
+    <div class="text-center lead">@ViewData["Title"]</div>
+    <br />
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -66,6 +70,8 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/font-awesome/js/all.js"></script>
+
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

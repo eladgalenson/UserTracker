@@ -14,5 +14,10 @@ namespace WebApplicationTest3.Data
 
         void RemoveUserTracking(string userId, UserTracking info);
 
+        //todo - move to a different repo
+        UserProfile GetUserProfile(string userName);
+
+        void UpdateUserProfile(UserProfile profile);
+
     }
 }

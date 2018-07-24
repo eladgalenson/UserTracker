@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using FriendsTracker.Data;
 using FriendsTracker.Data.Entities;
 using Microsoft.AspNetCore.Builder;
@@ -45,9 +46,18 @@ namespace WebApplicationTest3
                 cfg.UseSqlServer(_configuration.GetConnectionString("FriendsTrackerConnectionString"));
             });
 
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AllowNullDestinationValues = true;
+               
+            });
+
             services.AddMvc();
 
             services.AddTransient<IUserTrackingRepository, UserTrackingRepository>();
+
+         
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,32 @@
-﻿@{
-    ViewData["Title"] = "Profile page";
+﻿@model UserProfileViewModel
+@{
+    ViewData["Title"] = "My profile";
 }
-<div class="well-sm">In Profile View Now</div>
+
+
+
+<div class="container-fluid">
+    <div class="center-block">
+        <i class="fas fa-@Model.AvatarType.ToString()"></i>&nbsp;@Model.UserName
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <img src="@Model.ImageUrl" alt="Alternate Text" width="200" />
+        </div>
+        <div class="col-sm-9">
+            <p class="text-left font-weight-light">@Model.Status</p>
+        </div>
+    </div>
+</div>
+
+<br /><br />
+<div>
+    <a asp-action="Update">Edit Profile</a>
+</div>
+
+
+
+
+@* presnt UserName in large text in center, below it the image in 100px size *@
+
+@* present status in text for now, active not active , next to it the avatar    *@

@@ -19,7 +19,7 @@ namespace FriendsTracker.Data
         {
             //builder.Entity<UserTracking>().Property(k => k.TrackerId).IsRequired();
             //builder.Entity<UserTracking>().Property(k => k.UserId).IsRequired();
-            builder.Entity<UserTracking>().HasKey(k => new { k.UserId, k.TrackerId});
+            builder.Entity<UserTracking>().HasKey(k => new { k.UserProfileId, k.TrackerId});
             //builder.Entity<UserTracking>().HasMany(m=>m.User).WithRequired
 
             builder.Entity<TrackingInvitation>().HasKey(k => new { k.TrackerId, k.TrackeeId});
