@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FriendsTracker.Data.Entities.UserTracker>
+﻿@model IEnumerable<UserTrackerViewModel>
 
 @{
     ViewData["Title"] = "All Trackings";
@@ -14,17 +14,15 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Tracker.ApplicationUserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tracker.AvatarType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TrackerCount)
+                @Html.DisplayNameFor(model => model.Tracker.UserName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Tracker.ImageUrl)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrackerCount)
+            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -33,20 +31,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Tracker.ApplicationUserName)
+                    <i class="fas fa-@item.Tracker.AvatarType"></i>&nbsp;
+                    @Html.DisplayFor(modelItem => item.Tracker.UserName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Tracker.AvatarType)
+                    <img src="@item.Tracker.ImageUrl" alt="Alternate Text" width="20" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TrackerCount)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Tracker.ImageUrl)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>

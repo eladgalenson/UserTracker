@@ -8,18 +8,7 @@ namespace FriendsTracker.ViewModels
 {
     public class UserTrackingViewModel
     {
-        public int TrackingId { get; set; }
-
-        public string UserId { get; set; }
-
-        public bool Gender { get; set; }
-
-        public string ImageUrl { get; set; }
-
-        public string AvatarType { get; set; }
-
-        public bool IsActive { get; set; }
-
-        public string Location { get; set; }
+        public UserProfileViewModel UserProfile { get; set; }
+        public UserOnlinePresenceViewModel OnlinePresence { get; set; }
     }
 }

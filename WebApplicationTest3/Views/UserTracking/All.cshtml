@@ -1,7 +1,7 @@
-﻿@model IEnumerable<FriendsTracker.Data.Entities.UserTracking>
+﻿@model IEnumerable<UserTrackingViewModel>
 
 @{
-    ViewData["Title"] = "All";
+    ViewData["Title"] = "All my trackings";
 }
 
 @section Scripts
@@ -13,29 +13,18 @@
     <script src="~/ClientApp/dist/main.js"></script>
 }
 
-<h2>All</h2>
-<p>@ViewData["data"]</p>
 
-<p>
-    <a asp-action="Create">Add New Tracking</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TrackerId)
+                @Html.DisplayNameFor(model => model.UserProfile.UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+                @Html.DisplayNameFor(model => model.OnlinePresence.Location)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User.AvatarType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserOnlinePresence.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User.ImageUrl)
+                @Html.DisplayNameFor(model => model.UserProfile.ImageUrl)
             </th>
             <th></th>
         </tr>
@@ -45,26 +34,35 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TrackerId)
+                    <i class="fas fa-@item.UserProfile.AvatarType"></i>&nbsp;
+                    @Html.DisplayFor(modelItem => item.UserProfile.UserName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
+                    @if (@item.OnlinePresence.IsActive)
+                    {
+                        <img src="~/images/online.png" width="20" />
+                    }
+
+                    @Html.DisplayFor(modelItem => item.OnlinePresence.Location)
+
+                    @if (@item.OnlinePresence.Location.Length > 0)
+                    {
+                        <a href="#">Jump to map</a>
+                    }
+                    </td>
+                <td>
+                    <img src="@item.UserProfile.ImageUrl" alt="Alternate Text" width="20" />
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.AvatarType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserOnlinePresence.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.ImageUrl)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+
+<p>
+    <a asp-action="Create">Add New Tracking</a>
+</p>
+<br />

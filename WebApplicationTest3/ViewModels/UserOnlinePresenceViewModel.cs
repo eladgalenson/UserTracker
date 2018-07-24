@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FriendsTracker.Data.Entities
+namespace FriendsTracker.ViewModels
 {
-    public class UserOnlinePresence
+    public class UserOnlinePresenceViewModel
     {
-        public int Id { get; set; }
-        public int ProfileId { get; set; }
-
-        //public UserProfile User { get; set; }
-
         public bool IsActive { get; set; }
 
         public string Location { get; set; }
     }
+  
 }

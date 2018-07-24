@@ -1,0 +1,62 @@
+﻿@model UserProfileViewModel
+@{
+    ViewData["Title"] = "Edit profile";
+}
+@section scripts
+{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+}
+
+
+<form method="post" enctype="multipart/form-data" asp-action="Update">
+    <div asp-validation-summary="ModelOnly" class="text-error"></div>
+    <div class="form-group">
+        <label>@Model.UserName</label>
+        <input type="hidden" asp-for="UserName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="AvatarType"></label>
+
+        @*<select asp-for="AvatarType" asp-items="Html.GetEnumSelectList<FriendsTracker.Shared.Avatar>()"></select>*@
+
+        <fieldset asp-for="AvatarType">
+            @foreach (var e in Enum.GetNames(typeof(FriendsTracker.Shared.Avatar)))
+            {
+            <div>
+                @if (e == Model.AvatarType)
+                {
+                    <input type="radio" asp-for="AvatarType" value="@e" checked="checked">
+                }
+                else
+                {
+                    <input type="radio" asp-for="AvatarType" value="@e" >
+                }
+
+                <span><i class="fas fa-@e"></i></span>
+            </div>
+
+
+            }
+        </fieldset>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="ImageUpload"></label>
+        <input asp-for="ImageUpload" type="file" />
+        <br />
+        <span><img src="@Model.ImageUrl" width="20" /></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Status"></label>
+        <textarea asp-for="Status">@Model.Status</textarea>
+        <span asp-validation-for="Status" class="text-warning"></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </div>
+    <div class="warning">@ViewData["Problem"]</div>
+
+
+
+</form>

@@ -97,8 +97,8 @@ namespace FriendsTracker.Data
 
                 var profileFirst = new UserProfile()
                 {
-                    ApplicationUserName = firstUser.UserName,
-                    AvatarType = "tough",
+                    UserName = firstUser.UserName,
+                    AvatarType = Shared.Avatar.meh.ToString(),
                     Created = DateTime.Now,
                     Gender = true,
                     ImageUrl = string.Empty
@@ -110,27 +110,31 @@ namespace FriendsTracker.Data
 
                 var profileSecond = new UserProfile()
                 {
-                    ApplicationUserName = secondtUser.UserName,
-                    AvatarType = "cute",
+                    UserName = secondtUser.UserName,
+                    AvatarType = Shared.Avatar.poo.ToString(),
                     Created = DateTime.Now,
                     Gender = true,
                     ImageUrl = string.Empty
                 };
 
                 _context.UserProfiles.Add(profileSecond);
+                _context.SaveChanges();
+
+                var trackedProfile = _context.UserProfiles.Where(up => up.UserName == secondtUser.UserName).FirstOrDefault();
+                var trackerProfile = _context.UserProfiles.Where(up => up.UserName == firstUser.UserName).FirstOrDefault();
 
                 UserTracking ut = new UserTracking()
                 {
-                    UserOnlinePresence = new UserOnlinePresence()
+                    OnlinePresence = new UserOnlinePresence()
                     {
                         IsActive = false,
                         Location = "somewhere in te mediratenean",
-                        ApplicationUserName = profileSecond.Id
+                        ProfileId = trackedProfile.Id
                     },
-                    User = profileSecond,
-                    UserId = profileSecond.Id,
-                    Tracker = profileFirst,
-                    TrackerId = profileFirst.Id
+                    UserProfile = trackedProfile,
+                    UserProfileId = trackedProfile.Id,
+//                    Tracker = profileFirst,
+                    TrackerId = trackerProfile.Id
                 };
                
 
