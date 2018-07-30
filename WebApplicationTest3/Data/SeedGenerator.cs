@@ -31,7 +31,7 @@ namespace FriendsTracker.Data
             var user = await this._userManager.FindByEmailAsync("firstuser@gmail.com");
             if (user == null)
             {
-               
+
 
                 user = new ApplicationUser()
                 {
@@ -51,13 +51,13 @@ namespace FriendsTracker.Data
 
                 var result1 = await this._userManager.CreateAsync(user, "123456aB!");
                 var result2 = await this._userManager.CreateAsync(trackedUser, "123456aB!");
-                
+
                 if (result1 != IdentityResult.Success || result2 != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Failed to create default users");
                 }
 
-              
+
             }
 
             user = await this._userManager.FindByEmailAsync("adminuser@gmail.com");
@@ -91,7 +91,7 @@ namespace FriendsTracker.Data
             }
 
 
-                if (!_context.UserTrackings.Any())
+            if (!_context.UserTrackings.Any())
             {
                 var firstUser = await this._userManager.FindByEmailAsync("firstuser@gmail.com");
 
@@ -133,15 +133,94 @@ namespace FriendsTracker.Data
                     },
                     UserProfile = trackedProfile,
                     UserProfileId = trackedProfile.Id,
-//                    Tracker = profileFirst,
+                    //                    Tracker = profileFirst,
                     TrackerId = trackerProfile.Id
                 };
-               
+
 
                 _context.UserTrackings.Add(ut);
                 _context.SaveChanges();
             }
 
+            user = await this._userManager.FindByEmailAsync("thirduser@gmail.com");
+            if (user == null)
+            {
+
+
+                user = new ApplicationUser()
+                {
+                    FirstName = "third",
+                    LastName = "user",
+                    UserName = "thirduser",
+                    Email = "thirduser@gmail.com",
+                };
+
+                var result1 = await this._userManager.CreateAsync(user, "123456aB!");
+
+                if (result1 != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Failed to create third user");
+                }
+
+
+                var profileThird = new UserProfile()
+                {
+                    UserName = user.UserName,
+                    AvatarType = Shared.Avatar.female.ToString(),
+                    Created = DateTime.Now,
+                    Gender = true,
+                    ImageUrl = string.Empty
+                };
+
+                _context.UserProfiles.Add(profileThird);
+                _context.SaveChanges();
+            }
+
+            user = await this._userManager.FindByEmailAsync("fourthuser@gmail.com");
+            if (user == null)
+            {
+                // this will a user created fro invitation without actual application user
+                var profileFourth = new UserProfile()
+                {
+                    UserName = "fourthuser@gmail.com",
+                    Created = DateTime.MinValue
+                };
+
+                _context.UserProfiles.Add(profileFourth);
+                _context.SaveChanges();
+            }
+
+
+            if (!_context.TrackingInvitations.Any())
+            {
+                var trackingProfile = _context.UserProfiles.Where(up => up.UserName == "firstuser").FirstOrDefault();
+                var trackedProfile = _context.UserProfiles.Where(up => up.UserName == "thirduser").FirstOrDefault();
+                var trackedProfileEmail = _context.UserProfiles.Where(up => up.UserName == "fourthuser@gmail.com").FirstOrDefault();
+
+                if (trackingProfile == null || trackedProfile == null || trackedProfileEmail == null)
+                {
+                    throw new InvalidOperationException("Expected profiles are missing");
+                }
+
+
+                var invitation = new TrackingInvitation()
+                {
+                    TrackerId = trackingProfile.Id,
+                    TrackeeId = trackedProfile.Id
+                };
+
+                var invitationViaEmail = new TrackingInvitation()
+                {
+                    TrackerId = trackingProfile.Id,
+                    TrackeeId = trackedProfileEmail.Id,
+                    email = trackedProfileEmail.UserName
+                };
+
+                _context.TrackingInvitations.Add(invitation);
+                _context.TrackingInvitations.Add(invitationViaEmail);
+                _context.SaveChanges();
+
+            }
         }
 
     }
