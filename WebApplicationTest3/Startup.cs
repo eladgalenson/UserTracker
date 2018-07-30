@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using FriendsTracker.Data;
 using FriendsTracker.Data.Entities;
+using FriendsTracker.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using WebApplicationTest3.Data;
 
 namespace WebApplicationTest3
@@ -38,6 +41,15 @@ namespace WebApplicationTest3
             }
                 ).AddEntityFrameworkStores<UserTrackingContext>();
 
+            services.AddAuthentication().AddCookie().AddJwtBearer(cfg =>
+            {
+                cfg.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidIssuer = _configuration["Tokens:Issuer"],
+                    ValidAudience = _configuration["Tokens:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]))
+                };
+            });
 
             services.AddScoped<SeedGenerator>();
 
@@ -55,8 +67,10 @@ namespace WebApplicationTest3
             services.AddMvc();
 
             services.AddTransient<IUserTrackingRepository, UserTrackingRepository>();
+            services.AddTransient<IInvitationRepository, InvitationRepository>();
+            services.AddTransient<IMailServices, MailServices>();
+            
 
-         
 
         }
 
@@ -95,6 +109,9 @@ namespace WebApplicationTest3
                     name: "default",
                     template: "{controller=UserTracking}/{action=All}/{id?}");
             });
+
+         
+
         }
     }
 }

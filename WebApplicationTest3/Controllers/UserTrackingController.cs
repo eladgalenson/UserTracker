@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FriendsTracker.Data.Entities;
 using FriendsTracker.ViewModels;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -66,6 +67,7 @@ namespace WebApplicationTest3.Controllers
             }
         }
 
+        [Authorize]
         
         public async Task<IActionResult> AllTrackers()
         {
@@ -94,12 +96,19 @@ namespace WebApplicationTest3.Controllers
         }
 
         //API GET
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         
-        public IActionResult GetAll()
+        public IActionResult Trackers()
         {
-            var model = _userTrackingRepository.GetUserTrackings("96476fba-8626-4fc4-a33b-cf8210889855");
-            return Ok(model);
+            return Ok(_userTrackingRepository.GetTrackers());
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet]
+        public IActionResult Trackings(string userName)
+        {
+            return Ok(_userTrackingRepository.GetUserTrackings(userName));
         }
 
         public IActionResult Create()

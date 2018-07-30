@@ -53,6 +53,12 @@ namespace WebApplicationTest3.Data
             return _dbContext.UserProfiles.Where(p => p.UserName == userName).FirstOrDefault();
         }
 
+        public void AddUserProfile(UserProfile profile)
+        {
+            _dbContext.UserProfiles.Add(profile);
+            _dbContext.SaveChanges();
+        }
+
         public void UpdateUserProfile(UserProfile profile)
         {
             if (profile.Id > 0)

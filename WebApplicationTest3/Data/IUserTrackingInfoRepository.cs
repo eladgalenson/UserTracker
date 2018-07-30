@@ -17,6 +17,8 @@ namespace WebApplicationTest3.Data
         //todo - move to a different repo
         UserProfile GetUserProfile(string userName);
 
+        void AddUserProfile(UserProfile up);
+
         void UpdateUserProfile(UserProfile profile);
 
     }

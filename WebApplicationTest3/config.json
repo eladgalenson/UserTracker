@@ -2,17 +2,22 @@
     "ConnectionStrings": {
         "FriendsTrackerConnectionString": "server=ELAD-LAP;DataBase=FriendsTrackerDb;Integrated Security=true;MultipleActiveResultSets=true;"
     },
-   
+
     "Logging": {
         "LogLevel": {
             "Default": "Debug",
             "System": "Information",
             "Microsoft": "Information",
-            "WebApplicationTest3.Data.UserTrackingRepository":  "Trace"
+            "WebApplicationTest3.Data.UserTrackingRepository": "Trace"
         },
         "Console": {
             "IncludeScopes": "true"
         }
+    },
+    "Tokens": {
+        "Audience": "users",
+        "Issuer": "localhost",
+        "Key": "HeyWhatsUpYo!HeyWhatsUpYo!"
     }
 
 }

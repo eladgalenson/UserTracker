@@ -41,4 +41,13 @@ namespace FriendsTracker.Shared
         }
     }
 
+    public class InvitationProfile : Profile
+    {
+             
+        public InvitationProfile()
+        {
+            CreateMap<TrackingInvitation, InvitationViewModel>();
+        }
+    }
+
 }

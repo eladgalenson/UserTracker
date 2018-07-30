@@ -1,0 +1,63 @@
+﻿@model IEnumerable<InvitationViewModel>
+
+
+@{
+    ViewData["Title"] = "All my trackings";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Trackee.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            bool emailInvited = !string.IsNullOrEmpty(item.email);
+
+            <tr>
+                <td>
+                    @if (!emailInvited)
+                    {
+                        <i class="fas fa-@item.Trackee.AvatarType"></i>
+                        @Html.DisplayFor(modelItem => item.Trackee.UserName)
+                    }
+
+                </td>
+                <td>
+                    @if (emailInvited)
+                    {
+                        @Html.DisplayFor(modelItem => item.email);
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @if (!emailInvited)
+                    {
+                        <a asp-action="Send" asp-route-trackeeId="@item.Trackee.Id">resend invitation</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Send" asp-route-email="@item.email">resend invitation</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br /><br />
+
+@await Component.InvokeAsync("EmailInvite")
